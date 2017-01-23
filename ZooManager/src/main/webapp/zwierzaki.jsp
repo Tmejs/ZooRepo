@@ -1,5 +1,5 @@
 <%@page import="java.util.List"%>
-<%@page import="domain.model.Zwierze"%>
+<%@page import="dao.model.Zwierze"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -10,14 +10,14 @@
     </head>
     <body>
         <%
-            List<Zwierzaki> zwierzakiList = (List<Zwierzaki>) session.getAttribute("ZwierzakList");
+            List<Zwierze> zwierzakiList = (List<Zwierze>) session.getAttribute("ZwierzakList");
             Zwierze zwierze = (Zwierze)session.getAttribute("SelectedZwierze");
         %>
         <h1>Zwierzeta:</h1>
         <ol>
-            <%for(Zwierzak zw: zwierzakiList){ %>
+            <%for(Zwierze zw: zwierzakiList){ %>
             <li>
-                <%=zw.getName() %></li>
+                <%=zw.getNazwa() %></li>
                 <%} %>
             
         </ol>

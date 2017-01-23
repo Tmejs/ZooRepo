@@ -24,7 +24,7 @@ import java.sql.SQLException;
  */
 public class RepositoryCatalogue {
 
-    private final static String CONNECTION_STRING = "jdbc:hsqldb:hsql://10.0.0.65/workdb";
+    private final static String CONNECTION_STRING = "jdbc:hsqldb:hsql://localhost/workdb";
 
     IUnitOfWork uow;
     Connection connection;
