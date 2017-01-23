@@ -5,17 +5,19 @@
  */
 package com.mycompany.zoomanager_projekt_pjwstk;
 
-
 import dao.RepositoryCatalogue;
 import dao.WybiegRepository;
 import dao.ZwierzetaRepository;
 import dao.model.RodzajJedzenia;
+import dao.model.TypWybiegu;
 import dao.model.Wybieg;
 import dao.model.Zwierze;
 import dao.model.ZwierzeDoTypJedzenia;
 import dao.model.ZwierzeDoTypWybiegu;
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -30,10 +32,50 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        dodajWybiegi();
-        dodajZwierzaki();
-        //pobierzZwierzaka();
+        
+            pobierzZwierzaki();
+//        List<Zwierze> listaZierzat = null;
+//        try {
+//            RepositoryCatalogue repos = new RepositoryCatalogue();
+//            ZwierzetaRepository zr = repos.zwierzetaRepository();
+//            repos.save();
+//            listaZierzat = zr.getAll();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        listaZierzat.stream().forEach((a) -> {
+//            System.out.println(a.getNazwa());
+//        });
 
+    }
+
+    public static void pobierzZwierzaki() {
+        try {
+
+            RepositoryCatalogue rp = new RepositoryCatalogue();
+            ZwierzetaRepository zwr = rp.zwierzetaRepository();
+
+            List<Zwierze> zwieList = zwr.getAll();
+
+            zwieList.forEach((a) -> {
+                System.out.println(a.getNazwa());
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void pobierzTypyWybiegu() {
+
+        ArrayList<String> rodzaje = new ArrayList<String>();
+        for (TypWybiegu.RodzajWybiegu rw : TypWybiegu.RodzajWybiegu.values()) {
+            rodzaje.add(rw.toString());
+        }
+
+//        rodzaje.stream().forEach(a->{
+//            System.out.println(a);
+//        });
     }
 
     public static void dodajWybiegi() {
@@ -55,20 +97,19 @@ public class Main {
         }
         repos.save();
         repos.close();
-        try{
-         repos = new RepositoryCatalogue();
+        try {
+            repos = new RepositoryCatalogue();
             repos.wybiegRepository().getAll().stream().forEach(e -> {
                 listaWybiegow.add((Wybieg) e);
             });
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
 
     }
 
     public static void dodajZwierzaki() {
-         System.out.println("com.mycompany.zoomanager_projekt_pjwstk.Main.dodajZwierzaki()");
+        System.out.println("com.mycompany.zoomanager_projekt_pjwstk.Main.dodajZwierzaki()");
         try {
             RepositoryCatalogue repos;
             try {
@@ -77,28 +118,29 @@ public class Main {
                 e.printStackTrace();
                 return;
             }
-
+//            System.out.println("po repo");
+//            System.out.println(repos.toString());
             ZwierzetaRepository zr = repos.zwierzetaRepository();
+//            System.out.println(zr.toString());
 
             for (int i = 1; i < 4; i++) {
                 //String wybieg = "wybieg"+i;
                 zr.add(new Zwierze(i, "Zwierze" + i, 6, 100, null, null, i));
             }
-
-            repos.save();
+//            System.out.println("po zw");
             repos.close();
 
+//            System.out.println("po save");
             repos = new RepositoryCatalogue();
             repos.zwierzetaRepository().getAll().stream().forEach(e -> {
                 listaZwierzat.add((Zwierze) e);
             }
             );
-
         } catch (SQLException ex) {
-            //Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
-       
+        System.out.println("po dodajZwierzaki()");
+
     }
 
     public static void pobierzZwierzaka() {

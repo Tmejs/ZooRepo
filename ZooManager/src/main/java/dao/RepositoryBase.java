@@ -48,7 +48,7 @@ public abstract class RepositoryBase<TEntity extends IHaveId> implements
             //funkcja dla tabeli slownikowych (z naszych enum)
         insertNecessaryData();
         } catch (SQLException ex) {
-            //ex.printStackTrace();
+            ex.printStackTrace();
         }
     }
 

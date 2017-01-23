@@ -12,7 +12,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @WebServlet("/DodajZwierzeServlet")
 public class DodajZwierzeServlet extends HttpServlet {
@@ -21,16 +20,30 @@ public class DodajZwierzeServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        
-        List<Zwierze> list = pobierzZwierzaki();
-        session.setAttribute("ListaZwierzat", list);
-        response.sendRedirect("zwierzaki.jsp");
-        
+        String nazwa = (String) request.getParameter("nazwa");
+
+        Integer tempoJedzenia = Integer.valueOf((String) request.getParameter("tempoJedzenia"));
+
+        Zwierze newZwierze = new Zwierze(Integer.SIZE, nazwa, tempoJedzenia, 100, null, null, 1);
+
+        try {
+            
+            RepositoryCatalogue rp = new RepositoryCatalogue();
+            ZwierzetaRepository zwr = rp.zwierzetaRepository();
+            zwr.add(newZwierze);
+            rp.close();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            response.sendRedirect("blad_dodawania_zwierzaka.html");
+        } catch(Exception ex){
+            ex.printStackTrace();
+            response.sendRedirect("blad_dodawania_zwierzaka.html");
+        }
+
+        response.sendRedirect("index.html");
     }
 
-    
-    
     public List<Zwierze> pobierzZwierzaki() {
         System.out.println("com.mycompany.zoomanager_projekt_pjwstk.Main.pobierzZwierzaka()");
         List<Zwierze> listaZierzat = new ArrayList<>();

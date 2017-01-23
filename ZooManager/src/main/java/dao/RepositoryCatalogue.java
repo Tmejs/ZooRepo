@@ -39,6 +39,11 @@ public class RepositoryCatalogue {
 
     private Connection getNewConnection() throws SQLException {
 
+        try{
+        Class.forName("org.hsqldb.jdbcDriver");
+        }catch(ClassNotFoundException e){
+        e.printStackTrace();
+    }
         return DriverManager.getConnection(CONNECTION_STRING);
     }
 
